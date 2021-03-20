@@ -1,21 +1,22 @@
+import PropTypes from 'prop-types'
+
 import getDate from 'date-fns/getDate'
 
 import * as S from './styles'
 import Reminder from '../Reminder'
 
-export const DayProps = {
-  dayInMonth: 0,
-  reminders: [],
-}
-
 const Day = ({
   dayInMonth,
-  reminders = [],
   handleDayClick = () => {},
   handleEventClick = () => {},
+  isOutsideMonth,
+  reminders = [],
 }) => {
   return (
-    <S.Wrapper onClick={e => handleDayClick(e)}>
+    <S.Wrapper
+      onClick={e => handleDayClick(e)}
+      isOutsideMonth={isOutsideMonth}
+    >
       {getDate(dayInMonth)}
       {reminders.map(el => (
         <Reminder
@@ -25,6 +26,12 @@ const Day = ({
       ))}
     </S.Wrapper>
   )
+}
+
+Day.propTypes = {
+  dayInMonth: PropTypes.number,
+  isOutsideMonth: PropTypes.bool,
+  reminders: PropTypes.array,
 }
 
 export default Day

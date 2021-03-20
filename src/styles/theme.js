@@ -19,10 +19,11 @@ export default {
     radius: {
       lightRound: '0.2rem',
       round: '0.4rem',
-      veryRound: '0.8rem',
+      veryRound: '1.4rem',
     },
   },
   colors: {
+    primary: '#3CD3C1',
     red: '#E65849',
     blue: '#4062E6',
     purple: '#813EE6',

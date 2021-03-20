@@ -1,15 +1,15 @@
 import React, { useState } from 'react'
 
+import addDate from 'date-fns/add'
 import getDay from 'date-fns/getDay'
-import addDays from 'date-fns/add'
-import subDays from 'date-fns/sub'
-
-import { DayProps } from '../Day/index'
+import getMonth from 'date-fns/getMonth'
+import isSameMonth from 'date-fns/isSameMonth'
+import subDate from 'date-fns/sub'
 
 const withContainer = WrappedComponent => {
   return function Component() {
-    const WEEK_ROWS = 6
     const DISPLAYED_DAYS = 42
+    const MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
 
     const [currentMonth, setCurrentMonth] = useState(new Date().getUTCMonth())
     const [currentYear, setCurrentYear] = useState(new Date().getFullYear())
@@ -22,21 +22,34 @@ const withContainer = WrappedComponent => {
       return getDay(firstDayInMonth(month, year)) % 7
     }
 
+    const handleNextMonthClick = () => {
+      const nextMonthUTC = addDate(firstDayInMonth(currentMonth, currentYear), { months: 1 })
+      setCurrentMonth(getMonth(nextMonthUTC))
+    }
+
+    const handlePreviousMonthClick = () => {
+      const previousMonthUTC = subDate(firstDayInMonth(currentMonth, currentYear), { months: 1 })
+      setCurrentMonth(getMonth(previousMonthUTC))
+    }
+
     const createDaysArray = (month, year) => {
       const days = []
       const firstDayOffset = getFirstDayOffset(month, year)
       const firstDay = firstDayInMonth(month, year)
 
       for (let i = 0; i < DISPLAYED_DAYS; i++) {
-        const newDay = {...DayProps}
+        const newDay = {}
         newDay.reminders = []
 
         if (i < firstDayOffset) {
           const daysToSubtract = firstDayOffset - i
-          newDay.dayInMonth = subDays(firstDay, { days: daysToSubtract })
+          newDay.dayInMonth = subDate(firstDay, { days: daysToSubtract })
+          newDay.isOutsideMonth = true
         } else {
           const daysToAdd = i - firstDayOffset
-          newDay.dayInMonth = addDays(firstDay, { days: daysToAdd })
+          const currentDay = addDate(firstDay, { days: daysToAdd })
+          newDay.dayInMonth = currentDay
+          newDay.isOutsideMonth = !isSameMonth(currentDay, firstDay)
         }
         days.push(newDay)
       }
@@ -46,10 +59,12 @@ const withContainer = WrappedComponent => {
 
     const assignEventsToDays = eventsObject => {}
 
-    console.log(createDaysArray(0, 2021))
     return (
       <WrappedComponent
+        currentMonth={MONTHS[currentMonth]}
         daysArray={createDaysArray(currentMonth, currentYear)}
+        handleNextMonthClick={() => handleNextMonthClick()}
+        handlePreviousMonthClick={() => handlePreviousMonthClick()}
       />
     )
 
