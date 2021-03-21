@@ -16,14 +16,16 @@ const Day = ({
       onClick={() => handleOpenModal(dayInMonth)}
       isOutsideMonth={isOutsideMonth}
     >
-      {getDate(dayInMonth)}
-      {reminders.map(el => (
-        <Reminder
-          key={dayInMonth}
-          handleReminderClick={() => handleOpenModal(dayInMonth, el.id)}
-          data={el}
-        />
-      ))}
+      <p>{getDate(dayInMonth)}</p>
+      <S.RemindersWrapper>
+        {reminders.map(el => (
+          <Reminder
+            key={el.id}
+            handleClick={() => handleOpenModal(dayInMonth, el)}
+            data={el}
+          />
+        ))}
+      </S.RemindersWrapper>
     </S.Wrapper>
   )
 }

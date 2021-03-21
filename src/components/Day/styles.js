@@ -13,7 +13,16 @@ export const Wrapper = styled.span`
     border-bottom: 1px solid ${theme.colors.darkGray};
     flex: 1;
     height: calc(100%/6);
+    overflow: hidden;
 
     ${!!isOutsideMonth && wrapperModifiers.isOutsideMonth}
   `}
+`
+
+export const RemindersWrapper = styled.div`
+  height: calc(100% - 1.2rem);
+  overflow-y: scroll;
+  ::-webkit-scrollbar {
+    display: none;
+  }
 `

@@ -3,16 +3,20 @@ import PropTypes from 'prop-types';
 import * as S from './styles'
 
 const Button = ({
+  backgroundColor,
+  label,
+  primary,
   secondary,
   size = 'medium',
-  label,
   ...props
 }) => {
   return (
     <S.Button
       type="button"
+      primary={primary}
       size={size}
       secondary={secondary}
+      backgroundColor={backgroundColor}
       {...props}
     >
       {label}

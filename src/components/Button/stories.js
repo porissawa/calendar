@@ -11,7 +11,7 @@ const Template = (args) => <Button {...args} />;
 export const Primary = Template.bind({});
 Primary.args = {
   secondary: false,
-  backgroundColor: 'primary',
+  primary: true,
   size: 'medium',
   label: 'Click',
 };

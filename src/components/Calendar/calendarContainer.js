@@ -1,15 +1,19 @@
 import { useState, useMemo, useCallback } from 'react'
 
 import addDate from 'date-fns/add'
+import formatISO from 'date-fns/formatISO'
 import getDay from 'date-fns/getDay'
 import getMonth from 'date-fns/getMonth'
 import getYear from 'date-fns/getYear'
 import isSameMonth from 'date-fns/isSameMonth'
 import subDate from 'date-fns/sub'
 
+import { splitDate } from '../../helpers/date'
+
 const withContainer = WrappedComponent => {
   return function Component({
-    handleOpenModal
+    handleOpenModal,
+    reminders,
   }) {
     const DISPLAYED_DAYS = 42
     const MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
@@ -68,13 +72,20 @@ const withContainer = WrappedComponent => {
       return days
     }, [getFirstDayOffset])
 
-    const enrichDaysWithReminders = (daysArray, remindersObject) => {}
+    const enrichDaysWithReminders = (daysArray, remindersObject) => {
+      return daysArray.map(date => {
+        const { currentYear, currentMonth, currentDay } = splitDate(formatISO(date.dayInMonth))
+        if (remindersObject?.[currentYear]?.[currentMonth]?.[currentDay]) {
+          date.reminders = remindersObject[currentYear][currentMonth][currentDay]
+        }
+        return date
+      })
+    }
     
     const daysArray = useMemo(() => {
       const daysArray = createDaysArray(currentMonth, currentYear)
-      // return enrichDaysWithReminders(daysArray)
-      return daysArray
-    }, [currentMonth, currentYear, createDaysArray]) 
+      return enrichDaysWithReminders(daysArray, reminders)
+    }, [currentMonth, currentYear, createDaysArray, reminders]) 
 
     return (
       <WrappedComponent

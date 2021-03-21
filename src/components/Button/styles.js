@@ -20,10 +20,14 @@ const buttonModifiers = {
     background-color: ${theme.colors.lightGray};
     color: ${theme.colors.darkGray};
   `,
+  backgroundColor: ({ theme, backgroundColor }) => css`
+    background-color: ${theme.colors[backgroundColor]};
+    color: ${theme.colors.darkGray};
+`,
 }
 
 export const Button = styled.button`
-  ${({ theme, secondary, size }) => css`
+  ${({ theme, primary, secondary, size, backgroundColor }) => css`
     border: 0;
     border-radius: ${theme.border.radius.veryRound};
     cursor: pointer;
@@ -32,6 +36,8 @@ export const Button = styled.button`
     color: ${theme.colors.white};
 
     ${!!size && buttonModifiers[size]}
-    ${!!secondary ? buttonModifiers.secondary : buttonModifiers.primary}
+    ${!!secondary && buttonModifiers.secondary}
+    ${!!primary && buttonModifiers.primary}
+    ${!!backgroundColor && buttonModifiers.backgroundColor({theme, backgroundColor})}
   `}
 `;
