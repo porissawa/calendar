@@ -1,6 +1,4 @@
 /* eslint-disable import/no-anonymous-default-export */
-import React from 'react';
-
 import Button from '.';
 
 export default {
@@ -12,7 +10,7 @@ const Template = (args) => <Button {...args} />;
 
 export const Primary = Template.bind({});
 Primary.args = {
-  secondary: true,
+  secondary: false,
   backgroundColor: 'primary',
   size: 'medium',
   label: 'Click',

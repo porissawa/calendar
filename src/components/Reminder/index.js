@@ -2,9 +2,13 @@ import PropTypes from 'prop-types'
 
 import * as S from './styles.js'
 
-const Reminder = ({ id, color, text, city, forecast, handleClick }) => {
+const Reminder = ({ id, color, text, city, forecast, handleClick, ...props }) => {
   return (
-    <S.Wrapper color={color} onClick={() => handleClick(id)}>
+    <S.Wrapper
+      color={color}
+      onClick={() => handleClick(id)}
+      {...props}  
+    >
       {text}
     </S.Wrapper>
   )

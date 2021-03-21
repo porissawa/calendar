@@ -7,20 +7,20 @@ import Reminder from '../Reminder'
 
 const Day = ({
   dayInMonth,
-  handleDayClick = () => {},
-  handleEventClick = () => {},
+  handleOpenModal,
   isOutsideMonth,
   reminders = [],
 }) => {
   return (
     <S.Wrapper
-      onClick={e => handleDayClick(e)}
+      onClick={() => handleOpenModal(dayInMonth)}
       isOutsideMonth={isOutsideMonth}
     >
       {getDate(dayInMonth)}
       {reminders.map(el => (
         <Reminder
-          handleReminderClick={e => handleEventClick(e)}
+          key={dayInMonth}
+          handleReminderClick={() => handleOpenModal(dayInMonth, el.id)}
           data={el}
         />
       ))}
@@ -29,7 +29,9 @@ const Day = ({
 }
 
 Day.propTypes = {
-  dayInMonth: PropTypes.number,
+  dayInMonth: PropTypes.instanceOf(Date),
+  handleDayClick: PropTypes.func,
+  handleEventClick: PropTypes.func,
   isOutsideMonth: PropTypes.bool,
   reminders: PropTypes.array,
 }

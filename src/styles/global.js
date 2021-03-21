@@ -12,11 +12,17 @@ const GlobalStyles = createGlobalStyle`
   ${({ theme }) => css`
     html {
       font-size: 62, 5%;
+      height: 100%;
     }
 
     body {
       font-family: ${theme.font.family};
       font-size: ${theme.font.sizes};
+      height: 100%;
+    }
+
+    #root {
+      height: 100%;
     }
   `}
 `

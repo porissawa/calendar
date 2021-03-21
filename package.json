@@ -9,8 +9,10 @@
     "date-fns": "^2.19.0",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
+    "react-modal": "^3.12.1",
     "react-scripts": "4.0.3",
     "styled-components": "^5.2.1",
+    "uuid": "^8.3.2",
     "web-vitals": "^1.0.1"
   },
   "scripts": {

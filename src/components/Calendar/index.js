@@ -7,6 +7,7 @@ const Calendar = ({
   currentMonth,
   daysArray = [],
   handleNextMonthClick,
+  handleOpenModal,
   handlePreviousMonthClick,
 }) => {
   const addFlexLineBreaks = dArray => {
@@ -37,10 +38,19 @@ const Calendar = ({
         />
       </S.Header>
       <S.Calendar>
-        {addFlexLineBreaks(daysArray).map(el => {
+        {addFlexLineBreaks(daysArray).map((el, i) => {
           return el.type === 'day'
-            ? <Day dayInMonth={el.dayInMonth} isOutsideMonth={el.isOutsideMonth} />
-            : <S.Break />
+            ? (
+              <Day
+                key={el.dayInMonth}
+                dayInMonth={el.dayInMonth}
+                isOutsideMonth={el.isOutsideMonth}
+                reminders={el.reminders}
+                handleOpenModal={handleOpenModal}
+              />
+            ) : (
+              <S.Break key={`${i}-break`}/>
+            )
         })}
       </S.Calendar>
     </S.Wrapper>

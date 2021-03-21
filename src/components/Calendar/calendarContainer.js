@@ -1,13 +1,16 @@
-import React, { useState } from 'react'
+import { useState, useMemo, useCallback } from 'react'
 
 import addDate from 'date-fns/add'
 import getDay from 'date-fns/getDay'
 import getMonth from 'date-fns/getMonth'
+import getYear from 'date-fns/getYear'
 import isSameMonth from 'date-fns/isSameMonth'
 import subDate from 'date-fns/sub'
 
 const withContainer = WrappedComponent => {
-  return function Component() {
+  return function Component({
+    handleOpenModal
+  }) {
     const DISPLAYED_DAYS = 42
     const MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
 
@@ -18,21 +21,29 @@ const withContainer = WrappedComponent => {
       return new Date(year, month, 1)
     }
 
-    const getFirstDayOffset = (month, year) => {
+    const getFirstDayOffset = useCallback((month, year) => {
       return getDay(firstDayInMonth(month, year)) % 7
-    }
+    }, [])
 
     const handleNextMonthClick = () => {
       const nextMonthUTC = addDate(firstDayInMonth(currentMonth, currentYear), { months: 1 })
+      const nextMonthUTCYear = getYear(nextMonthUTC)
+      if (nextMonthUTCYear > currentYear) {
+        setCurrentYear(nextMonthUTCYear)
+      }
       setCurrentMonth(getMonth(nextMonthUTC))
     }
 
     const handlePreviousMonthClick = () => {
       const previousMonthUTC = subDate(firstDayInMonth(currentMonth, currentYear), { months: 1 })
+      const previousMonthUTCYear = getYear(previousMonthUTC)
+      if (previousMonthUTCYear < currentYear) {
+        setCurrentYear(previousMonthUTCYear)
+      }
       setCurrentMonth(getMonth(previousMonthUTC))
     }
 
-    const createDaysArray = (month, year) => {
+    const createDaysArray = useCallback((month, year) => {
       const days = []
       const firstDayOffset = getFirstDayOffset(month, year)
       const firstDay = firstDayInMonth(month, year)
@@ -55,16 +66,23 @@ const withContainer = WrappedComponent => {
       }
 
       return days
-    }
+    }, [getFirstDayOffset])
 
-    const assignEventsToDays = eventsObject => {}
+    const enrichDaysWithReminders = (daysArray, remindersObject) => {}
+    
+    const daysArray = useMemo(() => {
+      const daysArray = createDaysArray(currentMonth, currentYear)
+      // return enrichDaysWithReminders(daysArray)
+      return daysArray
+    }, [currentMonth, currentYear, createDaysArray]) 
 
     return (
       <WrappedComponent
         currentMonth={MONTHS[currentMonth]}
-        daysArray={createDaysArray(currentMonth, currentYear)}
+        daysArray={daysArray}
         handleNextMonthClick={() => handleNextMonthClick()}
         handlePreviousMonthClick={() => handlePreviousMonthClick()}
+        handleOpenModal={handleOpenModal}
       />
     )
 

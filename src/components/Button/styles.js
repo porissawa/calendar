@@ -13,23 +13,25 @@ const buttonModifiers = {
     font-size: 1.4rem;
     padding: 1rem 1.4rem;
   `,
+  primary: ({ theme }) => css`
+    background-color: ${theme.colors.primary};
+  `,
   secondary: ({ theme }) => css`
-    background-color: ${theme.colors.white};
+    background-color: ${theme.colors.lightGray};
     color: ${theme.colors.darkGray};
-  `
+  `,
 }
 
 export const Button = styled.button`
-  ${({ theme, backgroundColor, secondary, size }) => css`
+  ${({ theme, secondary, size }) => css`
     border: 0;
     border-radius: ${theme.border.radius.veryRound};
     cursor: pointer;
     display: inline-block;
     line-height: 1;
-    background-color: ${theme.colors[backgroundColor]};
     color: ${theme.colors.white};
 
     ${!!size && buttonModifiers[size]}
-    ${!!secondary && buttonModifiers[secondary]}
+    ${!!secondary ? buttonModifiers.secondary : buttonModifiers.primary}
   `}
 `;

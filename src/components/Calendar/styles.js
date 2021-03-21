@@ -26,8 +26,12 @@ export const Calendar = styled.div`
     display: flex;
     flex-wrap: wrap;
     overflow: hidden;
-    border-left: 1px solid ${theme.colors.black};
+    border: 1px solid ${theme.colors.black};
     border-radius: ${theme.border.radius.round};
+
+    &:nth-child(7n) {
+      border-right: 0;
+    }
   `}
 `;
 

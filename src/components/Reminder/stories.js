@@ -1,6 +1,4 @@
 /* eslint-disable import/no-anonymous-default-export */
-import React from "react";
-
 import Reminder from ".";
 
 export default {

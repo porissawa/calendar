@@ -1,13 +1,9 @@
-import React from 'react';
-
+/* eslint-disable import/no-anonymous-default-export */
 import Calendar from '.';
 
 export default {
   title: 'Calendar/Calendar',
   component: Calendar,
-  argTypes: {
-    backgroundColor: { control: 'input' },
-  },
 };
 
 const Template = (args) => <Calendar {...args} />;
