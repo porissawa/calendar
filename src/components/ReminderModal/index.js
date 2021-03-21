@@ -6,6 +6,7 @@ import Button from '../Button'
 import * as S from './styles'
 
 const ReminderModal = ({
+  forecastForReminder,
   handleConfirmClick,
   handleCloseModal,
   handleDeleteReminderClick,
@@ -99,8 +100,18 @@ const ReminderModal = ({
               </S.Select>
             </S.Label>
           </S.InputWrapper>
+          {reminderId && (
+            <S.InputWrapper>
+              <p>
+                Forecast:
+                <br/>
+                {forecastForReminder}
+              </p>
+            </S.InputWrapper>
+          )}
         </S.FormWrapper>
         <S.ModalButtonsContainer>
+          {reminderId ? (
             <Button
               onClick={() => {
                 handleDeleteReminderClick({id: reminderId, date: selectedDate})
@@ -108,6 +119,8 @@ const ReminderModal = ({
               label='Delete reminder'
               backgroundColor='red'
             />
+            ) : <div>&nbsp;</div>
+          }
             <S.SpacerSmall />
             <Button
               onClick={() => {

@@ -1,11 +1,11 @@
 import { combineReducers } from "redux"
 
 import reminders from './reminders'
-// import forecast from './forecast'
+import forecast from './forecast'
 
 const rootReducer = combineReducers({
   reminders,
-  // forecast,
+  forecast,
 })
 
 export default rootReducer

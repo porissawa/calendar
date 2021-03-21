@@ -5,6 +5,7 @@ import formatISO from 'date-fns/formatISO'
 import getDay from 'date-fns/getDay'
 import getMonth from 'date-fns/getMonth'
 import getYear from 'date-fns/getYear'
+import isSameDay from 'date-fns/isSameDay'
 import isSameMonth from 'date-fns/isSameMonth'
 import subDate from 'date-fns/sub'
 
@@ -51,6 +52,7 @@ const withContainer = WrappedComponent => {
       const days = []
       const firstDayOffset = getFirstDayOffset(month, year)
       const firstDay = firstDayInMonth(month, year)
+      const today = new Date()
 
       for (let i = 0; i < DISPLAYED_DAYS; i++) {
         const newDay = {}
@@ -60,15 +62,21 @@ const withContainer = WrappedComponent => {
           const daysToSubtract = firstDayOffset - i
           newDay.dayInMonth = subDate(firstDay, { days: daysToSubtract })
           newDay.isOutsideMonth = true
+          newDay.isToday = false
         } else {
           const daysToAdd = i - firstDayOffset
           const currentDay = addDate(firstDay, { days: daysToAdd })
           newDay.dayInMonth = currentDay
           newDay.isOutsideMonth = !isSameMonth(currentDay, firstDay)
+          if (isSameDay(currentDay, today)) {
+            newDay.isToday = true
+          } else {
+            newDay.isToday = false
+          }
         }
         days.push(newDay)
       }
-
+      console.log(days)
       return days
     }, [getFirstDayOffset])
 

@@ -47,6 +47,7 @@ const Calendar = ({
                 isOutsideMonth={el.isOutsideMonth}
                 reminders={el.reminders}
                 handleOpenModal={handleOpenModal}
+                isToday={el.isToday}
               />
             ) : (
               <S.Break key={`${i}-break`}/>

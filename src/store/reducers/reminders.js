@@ -33,7 +33,7 @@ export default function reducer(state = initialState, action = {}) {
 }
 
 // since redux-toolkit's createReducer is a wrapper around immer,
-// it's not necessary to use its producer here
+// it's not necessary to use its produce function here
 
 const addReminder = (state, { date, time, text, city, color }) => {
   const { currentDay, currentMonth, currentYear } = splitDate(date)

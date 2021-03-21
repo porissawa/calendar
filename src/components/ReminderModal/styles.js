@@ -17,9 +17,12 @@ export const FormWrapper = styled.div`
 `
 
 export const InputWrapper = styled.div`
-  width: 100%;
-  display: flex;
-  flex-wrap: wrap;
+${({ theme }) => css `
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom: ${theme.spacings.xxsmall};
+`}
 `
 
 export const Input = styled.input``

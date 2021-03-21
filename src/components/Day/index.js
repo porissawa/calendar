@@ -9,14 +9,16 @@ const Day = ({
   dayInMonth,
   handleOpenModal,
   isOutsideMonth,
+  isToday,
   reminders = [],
 }) => {
   return (
     <S.Wrapper
       onClick={() => handleOpenModal(dayInMonth)}
       isOutsideMonth={isOutsideMonth}
+      isToday={isToday}
     >
-      <p>{getDate(dayInMonth)}</p>
+      <S.DateWrapper>{getDate(dayInMonth)}</S.DateWrapper>
       <S.RemindersWrapper>
         {reminders.map(el => (
           <Reminder
@@ -35,6 +37,7 @@ Day.propTypes = {
   handleDayClick: PropTypes.func,
   handleEventClick: PropTypes.func,
   isOutsideMonth: PropTypes.bool,
+  isToday: PropTypes.bool,
   reminders: PropTypes.array,
 }
 

@@ -1,19 +1,22 @@
-import { useState } from 'react'
+import { useState, useMemo } from 'react'
 
 import { useSelector, useDispatch } from 'react-redux'
+import closestIndexTo from 'date-fns/closestIndexTo'
 import formatISO from 'date-fns/formatISO'
-import { v4 as uuid } from 'uuid'
+import parseISO from 'date-fns/parseISO'
 
 import * as S from './styles'
 import Calendar from '../../components/Calendar'
 import ReminderModal from '../../components/ReminderModal'
-import { splitDate } from '../../helpers/date'
 import { ADD_REMINDER, UPDATE_REMINDER, DELETE_REMINDER } from '../../store/reducers/reminders'
+import { fetchForecast } from '../../store/reducers/forecast'
+import { isDateInApiRange } from '../../helpers/date'
 
 const CalendarView = () => {
   const dispatch = useDispatch()
   const { reminders } = useSelector(state => state.reminders)
-  // const [reminders, setReminders] = useState({})
+  const { forecast } = useSelector(state => state.forecast)
+
   const [showReminderModal, setShowReminderModal] = useState(false)
   const [selectedDate, setSelectedDate] = useState(undefined)
   const [selectedReminder, setSelectedReminder] = useState(undefined)
@@ -21,14 +24,14 @@ const CalendarView = () => {
   const addReminder = ({ date, time, text, city, color }) => {
     dispatch({
       type: ADD_REMINDER,
-      payload: { date, time, text, city, color }
+      payload: { date, time, text, city, color },
     })
   }
 
   const updateReminder = ({ date, time, text, city, color }) => {
     dispatch({
       type: UPDATE_REMINDER,
-      payload: { date, time, text, city, color }
+      payload: { date, time, text, city, color },
     })
   }
 
@@ -39,7 +42,34 @@ const CalendarView = () => {
     })
   }
 
+  const forecastForReminder = useMemo(() => {
+    if (selectedReminder && forecast) {
+      const forecastsForCity = forecast.find(el => el.city === selectedReminder.city)
+      const reminderDateInApiRange = isDateInApiRange(selectedReminder.date)
+  
+      if (forecastsForCity && reminderDateInApiRange) {
+        const weatherIndex = closestIndexTo(parseISO(selectedReminder.date), forecastsForCity.weather.map(el => parseISO(el.date)))
+        return forecastsForCity.weather[weatherIndex].weather
+      }
+
+      if (!reminderDateInApiRange) {
+        return 'Forecast is available only for the next five days from today.'
+      }
+
+      if (reminderDateInApiRange && !forecastsForCity) {
+        return 'Forecast unavailable for this city'
+      }
+
+      return 'loading...'
+    }
+  }, [forecast, selectedReminder])
+
+
   const handleOpenModal = (date, reminder) => {
+    if (reminder && reminder.city) {
+      dispatch(fetchForecast({city: reminder.city, date: reminder.date}))
+    }
+    
     setSelectedReminder(reminder)
     setSelectedDate(formatISO(date, { representation: 'date' }))
     setShowReminderModal(true)
@@ -62,6 +92,8 @@ const CalendarView = () => {
     setSelectedDate(undefined)
     setSelectedReminder(undefined)
   }
+  
+  
 
   return (
     <S.Wrapper>
@@ -76,6 +108,7 @@ const CalendarView = () => {
         handleDeleteReminderClick={reminder => handleModalDeleteClick(reminder)}
         selectedDate={selectedDate}
         selectedReminder={selectedReminder}
+        forecastForReminder={forecastForReminder}
       />}
     </S.Wrapper>
   )
