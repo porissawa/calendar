@@ -2,9 +2,9 @@ import { v4 as uuid } from 'uuid'
 
 import { splitDate } from '../../helpers/date'
 
-const ADD_REMINDER = 'reminder/addReminder'
-const UPDATE_REMINDER = 'reminder/updateReminder'
-const DELETE_REMINDER = 'reminder/deleteReminder'
+export const ADD_REMINDER = 'reminder/addReminder'
+export const UPDATE_REMINDER = 'reminder/updateReminder'
+export const DELETE_REMINDER = 'reminder/deleteReminder'
 
 const initialState = {
   reminders: {}
@@ -14,26 +14,30 @@ export default function reducer(state = initialState, action = {}) {
   switch(action.type) {
     case ADD_REMINDER:
       return {
-        ...addReminder(state, action.payload)
+        ...state,
+        reminders: addReminder(state, action.payload)
       }
     case UPDATE_REMINDER:
       return {
-        ...updateReminder(state, action.payload)
+        ...state,
+        reminders: updateReminder(state, action.payload)
       }
     case DELETE_REMINDER:
       return {
-        ...deleteReminder(state, action.payload)
+        ...state,
+        reminders: deleteReminder(state, action.payload)
       }
     default:
       return state
   }
 }
 
-
+// since redux-toolkit's createReducer is a wrapper around immer,
+// it's not necessary to use its producer here
 
 const addReminder = (state, { date, time, text, city, color }) => {
   const { currentDay, currentMonth, currentYear } = splitDate(date)
-  let remindersCopy = {...state}
+  let remindersCopy = {...state.reminders}
   const yearHasReminder = remindersCopy[currentYear]
   const newReminder = {
     id: uuid(),
@@ -73,7 +77,8 @@ const addReminder = (state, { date, time, text, city, color }) => {
 
 const updateReminder = (state, { id, date, time, text, city, color }) => {
   const { currentDay, currentMonth, currentYear } = splitDate(date)
-  let remindersCopy = {...state}
+  let remindersCopy = {...state.reminders}
+  console.log(remindersCopy)
   const reminderIndex = remindersCopy[currentYear][currentMonth][currentDay].findIndex(el => el.id === id)
   const reminderCopy = {...remindersCopy[currentYear][currentMonth][currentDay][reminderIndex]}
   const newReminder = {
@@ -83,16 +88,15 @@ const updateReminder = (state, { id, date, time, text, city, color }) => {
     city,
     color,
   }
-
   const remindersList = remindersCopy[currentYear][currentMonth][currentDay]
   remindersList.splice(reminderIndex, 1, newReminder)
-  console.log(remindersList)
-  return remindersList.sort((a, b) => a.time.localeCompare(b.time))
+  remindersCopy[currentYear][currentMonth][currentDay] = remindersList.sort((a, b) => a.time.localeCompare(b.time))
+  return remindersCopy
 }
 
 const deleteReminder = (state, { id, date }) => {
   const { currentDay, currentMonth, currentYear } = splitDate(date)
-  let remindersCopy = {...state}
+  let remindersCopy = {...state.reminders}
   remindersCopy[currentYear][currentMonth][currentDay] = remindersCopy[currentYear][currentMonth][currentDay].filter(el => el.id !== id)
   return remindersCopy
 }

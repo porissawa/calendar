@@ -1,5 +1,6 @@
 import { useState } from 'react'
 
+import { useSelector, useDispatch } from 'react-redux'
 import formatISO from 'date-fns/formatISO'
 import { v4 as uuid } from 'uuid'
 
@@ -7,77 +8,35 @@ import * as S from './styles'
 import Calendar from '../../components/Calendar'
 import ReminderModal from '../../components/ReminderModal'
 import { splitDate } from '../../helpers/date'
+import { ADD_REMINDER, UPDATE_REMINDER, DELETE_REMINDER } from '../../store/reducers/reminders'
 
 const CalendarView = () => {
-  const [reminders, setReminders] = useState({})
+  const dispatch = useDispatch()
+  const { reminders } = useSelector(state => state.reminders)
+  // const [reminders, setReminders] = useState({})
   const [showReminderModal, setShowReminderModal] = useState(false)
   const [selectedDate, setSelectedDate] = useState(undefined)
   const [selectedReminder, setSelectedReminder] = useState(undefined)
 
   const addReminder = ({ date, time, text, city, color }) => {
-    const { currentDay, currentMonth, currentYear } = splitDate(date)
-    let remindersCopy = {...reminders}
-    const yearHasReminder = remindersCopy[currentYear]
-    const newReminder = {
-      id: uuid(),
-      date,
-      time,
-      text,
-      city,
-      color,
-      forecast: null,
-    }
-    
-    if (!yearHasReminder) {
-      remindersCopy[currentYear] = {}
-    }
-
-    const monthHasReminder = remindersCopy[currentYear][currentMonth]
-
-    if (!monthHasReminder) {
-      remindersCopy[currentYear][currentMonth] = {}
-    }
-
-    const dayHasReminder = remindersCopy[currentYear][currentMonth][currentDay]
-
-    if (!dayHasReminder) {
-      // add reminder to new day index
-      remindersCopy[currentYear][currentMonth][currentDay] = [newReminder]
-    } else {
-      // add reminder to existing day index
-      remindersCopy[currentYear][currentMonth][currentDay] = [
-        ...remindersCopy[currentYear][currentMonth][currentDay],
-        newReminder
-      ].sort((a, b) => a.time.localeCompare(b.time))
-    }
-     
-    setReminders(remindersCopy)
+    dispatch({
+      type: ADD_REMINDER,
+      payload: { date, time, text, city, color }
+    })
   }
 
-  const updateReminder = ({ id, date, time, text, city, color }) => {
-    const { currentDay, currentMonth, currentYear } = splitDate(date)
-    let remindersCopy = {...reminders}
-    const reminderIndex = remindersCopy[currentYear][currentMonth][currentDay].findIndex(el => el.id === id)
-    const reminderCopy = {...remindersCopy[currentYear][currentMonth][currentDay][reminderIndex]}
-    const newReminder = {
-      ...reminderCopy,
-      time,
-      text,
-      city,
-      color,
-    }
-
-    const remindersList = remindersCopy[currentYear][currentMonth][currentDay]
-    remindersList.splice(reminderIndex, 1, newReminder)
-    console.log(remindersList)
-    return remindersList.sort((a, b) => a.time.localeCompare(b.time))
+  const updateReminder = ({ date, time, text, city, color }) => {
+    dispatch({
+      type: UPDATE_REMINDER,
+      payload: { date, time, text, city, color }
+    })
   }
 
   const deleteReminder = ({ id, date }) => {
-    const { currentDay, currentMonth, currentYear } = splitDate(date)
-    let remindersCopy = {...reminders}
-    remindersCopy[currentYear][currentMonth][currentDay] = remindersCopy[currentYear][currentMonth][currentDay].filter(el => el.id !== id)
-    return setReminders(remindersCopy)
+    dispatch({
+      type: DELETE_REMINDER,
+      payload: { id, date }
+    })
   }
 
   const handleOpenModal = (date, reminder) => {
