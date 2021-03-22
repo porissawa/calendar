@@ -17,6 +17,7 @@ export const Wrapper = styled.span`
     flex: 1;
     height: calc(100% / 6);
     overflow: hidden;
+    cursor: pointer;
 
     ${!!isOutsideMonth && wrapperModifiers.isOutsideMonth}
     ${!!isToday && wrapperModifiers.isToday}
