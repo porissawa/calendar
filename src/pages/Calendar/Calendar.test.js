@@ -32,6 +32,14 @@ test('renders more than a month', () => {
   expect(firstDays).toHaveLength(2)
 })
 
+test('renders the current month by default', () => {
+  const MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
+  const currentMonthIndex = new Date().getMonth()
+  render (<CalendarView />, { wrapper: Wrapper })
+  const currentMonth = screen.getByText(MONTHS[currentMonthIndex])
+  expect(currentMonth).toBeInTheDocument()
+})
+
 test('renders modal on day click', async () => {
   render (<CalendarView />, { wrapper: Wrapper })
   const todayCell = screen.getByTestId('today-cell')
