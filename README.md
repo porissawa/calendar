@@ -19,3 +19,4 @@ Launches the test runner in the interactive watch mode.
 - Using Redux might have been overkill for such a small project.
 - Weather info is only available for the next five days after today. In a future iteration I might consider adding historic data to it.
 - Deleting all reminders for a given day hasn't been implemented at the time.
+- In a future iteration, using something like localforage for persisting the reminders in the browser for offline access might be a good feature.
