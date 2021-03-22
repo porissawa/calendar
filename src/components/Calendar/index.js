@@ -1,3 +1,5 @@
+import PropTypes from 'prop-types'
+
 import * as S from './styles'
 import Container from './calendarContainer'
 import Button from '../Button'
@@ -27,16 +29,27 @@ const Calendar = ({
       <S.Header>
         <Button
           label='&lt;'
-          backgroundColor='primary'
+          primary
           onClick={() => handlePreviousMonthClick()}
         />
         <div>{currentMonth}</div>
         <Button
           label='&gt;'
-          backgroundColor='primary'
+          primary
           onClick={() => handleNextMonthClick()}
         />
       </S.Header>
+      <S.Weekdays>
+        {[
+          'S',
+          'M',
+          'T',
+          'W',
+          'T',
+          'F',
+          'S'
+          ].map((el, i) => <span key={el + i}>{el}</span>)}
+      </S.Weekdays>
       <S.Calendar>
         {addFlexLineBreaks(daysArray).map((el, i) => {
           return el.type === 'day'
@@ -56,6 +69,14 @@ const Calendar = ({
       </S.Calendar>
     </S.Wrapper>
   )
+}
+
+Calendar.propTypes = {
+  currentMonth: PropTypes.string,
+  daysArray: PropTypes.array,
+  handleNextMonthClick: PropTypes.func,
+  handleOpenModal: PropTypes.func,
+  handlePreviousMonthClick: PropTypes.func,
 }
 
 export default Container(Calendar)

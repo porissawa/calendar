@@ -29,6 +29,7 @@ const buttonModifiers = {
     background-color: ${theme.colors.gray};
     color: ${theme.colors.white};
     border: 1px solid ${theme.colors.darkGray};
+    cursor: default;
   `,
 }
 

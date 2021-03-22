@@ -19,6 +19,20 @@ export const Header = styled.div`
   `}
 `
 
+export const Weekdays = styled.div`
+  ${({ theme }) => css`
+    height: ${theme.spacings.small};
+    width: 100%;
+    margin-bottom: ${theme.spacings.xxsmall};
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    background-color: ${theme.colors.primary};
+    color: ${theme.colors.white};
+    font-weight: ${theme.font.bold};
+  `}
+`
+
 export const Calendar = styled.div`
   ${({ theme }) => css`
     height: 100%;

@@ -1,5 +1,6 @@
 import { useState } from 'react'
 
+import PropTypes from 'prop-types'
 import ReactModal from 'react-modal'
 
 import Button from '../Button'
@@ -136,6 +137,16 @@ const ReminderModal = ({
       </S.Wrapper>
     </ReactModal>
   )
+}
+
+ReminderModal.propTypes = {
+  forecastForReminder: PropTypes.string,
+  handleConfirmClick: PropTypes.func,
+  handleCloseModal: PropTypes.func,
+  handleDeleteReminderClick: PropTypes.func,
+  isOpen: PropTypes.bool,
+  selectedDate: PropTypes.string,
+  selectedReminder: PropTypes.object,
 }
 
 export default ReminderModal
