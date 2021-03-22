@@ -1,6 +1,7 @@
 # Calendar
 
-To run it locally, first clone the repo and navigate to its folder.\
+To run it locally, first clone the repo, navigate to its folder and run `yarn` to install all the necessary dependencies.
+
 You most likely already have a .env file (sent by me) with the REACT_APP_WEATHER_API_KEY variable. If you do not, let me know and I'll email it to you.\
 Copy this .env file to the root of the project. It's important to do it before running `yarn start`, otherwise you'll have to kill the process and run it again so the app recognizes its new environment variables.
 
