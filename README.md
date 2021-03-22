@@ -21,3 +21,5 @@ Launches the test runner in the interactive watch mode.
 - Weather info is only available for the next five days after today. In a future iteration I might consider adding historic data to it.
 - Deleting all reminders for a given day hasn't been implemented at the time.
 - In a future iteration, using something like localforage for persisting the reminders in the browser for offline access might be a good feature.
+- The city field in the reminder modal is currently a simple text input.\
+Since there's a huge amount of cities, implementing an autosuggest would also require implementing something like a trie to traverse the data. For this first iteration, I'm happy with the current implementation. 
