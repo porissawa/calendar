@@ -21,9 +21,9 @@ const Day = ({
     >
       <S.DateWrapper>{getDate(dayInMonth)}</S.DateWrapper>
       <S.RemindersWrapper>
-        {reminders.map(el => (
+        {reminders.map((el, i) => (
           <Reminder
-            key={el.id}
+            key={`${el.id}-i`}
             handleClick={() => handleOpenModal(dayInMonth, el)}
             data={el}
           />

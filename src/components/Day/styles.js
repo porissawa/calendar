@@ -26,6 +26,7 @@ export const Wrapper = styled.span`
 export const RemindersWrapper = styled.div`
   height: calc(100% - 1.2rem);
   overflow-y: scroll;
+  scrollbar-width: none;
   ::-webkit-scrollbar {
     display: none;
   }
