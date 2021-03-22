@@ -17,17 +17,23 @@ const buttonModifiers = {
     background-color: ${theme.colors.primary};
   `,
   secondary: ({ theme }) => css`
-    background-color: ${theme.colors.lightGray};
+    background-color: ${theme.colors.white};
     color: ${theme.colors.darkGray};
+    border: 1px solid ${theme.colors.darkGray};
   `,
   backgroundColor: ({ theme, backgroundColor }) => css`
     background-color: ${theme.colors[backgroundColor]};
     color: ${theme.colors.darkGray};
-`,
+  `,
+  isDisabled: ({ theme }) => css`
+    background-color: ${theme.colors.gray};
+    color: ${theme.colors.white};
+    border: 1px solid ${theme.colors.darkGray};
+  `,
 }
 
 export const Button = styled.button`
-  ${({ theme, primary, secondary, size, backgroundColor }) => css`
+  ${({ theme, primary, secondary, size, backgroundColor, isDisabled }) => css`
     border: 0;
     border-radius: ${theme.border.radius.veryRound};
     cursor: pointer;
@@ -38,6 +44,7 @@ export const Button = styled.button`
     ${!!size && buttonModifiers[size]}
     ${!!secondary && buttonModifiers.secondary}
     ${!!primary && buttonModifiers.primary}
-    ${!!backgroundColor && buttonModifiers.backgroundColor({theme, backgroundColor})}
+    ${!!backgroundColor && buttonModifiers.backgroundColor({ theme, backgroundColor })}
+    ${!!isDisabled && buttonModifiers.isDisabled({ theme })}
   `}
 `;

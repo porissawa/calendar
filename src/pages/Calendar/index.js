@@ -56,6 +56,10 @@ const CalendarView = () => {
         return 'Forecast is available only for the next five days from today.'
       }
 
+      if (!selectedReminder.city) {
+        return 'No city was registered'
+      }
+
       if (reminderDateInApiRange && !forecastsForCity) {
         return 'Forecast unavailable for this city'
       }

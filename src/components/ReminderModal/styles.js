@@ -12,17 +12,19 @@ export const Wrapper = styled.div`
 
 export const FormWrapper = styled.div`
   ${({ theme }) => css`
+    margin: 0 auto;
     margin-bottom: ${theme.spacings.small};
   `}
 `
 
 export const InputWrapper = styled.div`
-${({ theme }) => css `
-    width: 100%;
-    display: flex;
-    flex-wrap: wrap;
-    margin-bottom: ${theme.spacings.xxsmall};
-`}
+  ${({ theme }) => css `
+      width: 100%;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: baseline;
+      margin-bottom: ${theme.spacings.xxsmall};
+  `}
 `
 
 export const Input = styled.input``

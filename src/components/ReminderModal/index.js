@@ -128,6 +128,7 @@ const ReminderModal = ({
               }}
               label='Save reminder'
               primary
+              isDisabled={text.length < 1 || text.length > 30}
             />
         </S.ModalButtonsContainer>
       </S.Wrapper>
