@@ -17,6 +17,7 @@ const Day = ({
       onClick={() => handleOpenModal(dayInMonth)}
       isOutsideMonth={isOutsideMonth}
       isToday={isToday}
+      data-testid={isToday ? 'today-cell' : null}
     >
       <S.DateWrapper>{getDate(dayInMonth)}</S.DateWrapper>
       <S.RemindersWrapper>

@@ -22,7 +22,6 @@ const Button = ({
       isDisabled={isDisabled}
       onClick={() => {
         if (!isDisabled) {
-          console.log(isDisabled)
           onClick()
         }
       }}

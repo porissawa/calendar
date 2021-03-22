@@ -76,7 +76,7 @@ const withContainer = WrappedComponent => {
         }
         days.push(newDay)
       }
-      console.log(days)
+
       return days
     }, [getFirstDayOffset])
 

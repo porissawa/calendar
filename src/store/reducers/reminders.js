@@ -78,7 +78,6 @@ const addReminder = (state, { date, time, text, city, color }) => {
 const updateReminder = (state, { id, date, time, text, city, color }) => {
   const { currentDay, currentMonth, currentYear } = splitDate(date)
   let remindersCopy = {...state.reminders}
-  console.log(remindersCopy)
   const reminderIndex = remindersCopy[currentYear][currentMonth][currentDay].findIndex(el => el.id === id)
   const reminderCopy = {...remindersCopy[currentYear][currentMonth][currentDay][reminderIndex]}
   const newReminder = {

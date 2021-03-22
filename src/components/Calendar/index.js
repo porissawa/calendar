@@ -42,7 +42,7 @@ const Calendar = ({
           return el.type === 'day'
             ? (
               <Day
-                key={el.dayInMonth}
+                key={`${el.dayInMonth}-${i}`}
                 dayInMonth={el.dayInMonth}
                 isOutsideMonth={el.isOutsideMonth}
                 reminders={el.reminders}

@@ -55,6 +55,7 @@ const ReminderModal = ({
                 maxLength='30'
                 onChange={e => setText(e.target.value)}
                 value={text}
+                placeholder='Remind me of...'
               />
             </S.Label>
           </S.InputWrapper>
@@ -79,6 +80,7 @@ const ReminderModal = ({
                 id='city'
                 onChange={e => setCity(e.target.value)}
                 value={city}
+                placeholder='Where will it happen?'
               />
             </S.Label>
           </S.InputWrapper>
@@ -101,7 +103,7 @@ const ReminderModal = ({
             </S.Label>
           </S.InputWrapper>
           {reminderId && (
-            <S.InputWrapper>
+            <S.InputWrapper data-testid='forecast-div'>
               <p>
                 Forecast:
                 <br/>
